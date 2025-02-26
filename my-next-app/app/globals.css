@@ -1,0 +1,76 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Background Gradient */
+body {
+  background: linear-gradient(to bottom, #f8fafc, #e2e8f0);
+  color: #1e293b;
+}
+
+/* Navbar Styling */
+.navbar {
+  background: #1e3a8a;
+  color: white;
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+/* Product Cards */
+.product-card {
+  border: 1px solid #e2e8f0;
+  border-radius: 8px;
+  padding: 16px;
+  background: white;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  transition: transform 0.2s ease-in-out, box-shadow 0.2s;
+}
+
+.product-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0px 10px 15px rgba(0, 0, 0, 0.2);
+}
+
+/* Buttons */
+.primary-btn {
+  background: #2563eb;
+  color: white;
+  padding: 10px 16px;
+  border-radius: 5px;
+  transition: background 0.3s;
+}
+
+.primary-btn:hover {
+  background: #1e40af;
+}
+
+/* Pagination Buttons */
+.pagination button {
+  background: #2563eb;
+  color: white;
+  padding: 8px 12px;
+  border-radius: 5px;
+  transition: background 0.3s;
+}
+
+.pagination button:disabled {
+  background: #cbd5e1;
+  cursor: not-allowed;
+}
+
+.pagination button:hover:not(:disabled) {
+  background: #1e40af;
+}
+
+/* Category Cards */
+.category-card {
+  background: linear-gradient(to right, #3b82f6, #1e40af);
+  color: white;
+  padding: 16px;
+  border-radius: 8px;
+  text-align: center;
+  transition: transform 0.2s;
+}
+
+.category-card:hover {
+  transform: scale(1.05);
+}
