@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
 import Link from "next/link";
+import Image from "next/image"; // ✅ Use Next.js Image
 
 interface Product {
   id: number;
@@ -22,6 +23,7 @@ export default function HomePage() {
 
   const productsPerPage = 10; // Show 10 products per page
 
+  // ✅ Fetch Products on Initial Render
   useEffect(() => {
     setLoading(true);
     axios
@@ -37,24 +39,26 @@ export default function HomePage() {
       });
   }, []);
 
-  // Sorting logic
+  // ✅ Sorting logic
   useEffect(() => {
-    let sorted = [...filteredProducts];
+    setFilteredProducts((prevFilteredProducts) => {
+      const sorted = [...prevFilteredProducts];
 
-    if (sortOption === "name-asc") {
-      sorted.sort((a, b) => a.title.localeCompare(b.title));
-    } else if (sortOption === "name-desc") {
-      sorted.sort((a, b) => b.title.localeCompare(a.title));
-    } else if (sortOption === "price-asc") {
-      sorted.sort((a, b) => a.price - b.price);
-    } else if (sortOption === "price-desc") {
-      sorted.sort((a, b) => b.price - a.price);
-    }
+      if (sortOption === "name-asc") {
+        sorted.sort((a, b) => a.title.localeCompare(b.title));
+      } else if (sortOption === "name-desc") {
+        sorted.sort((a, b) => b.title.localeCompare(a.title));
+      } else if (sortOption === "price-asc") {
+        sorted.sort((a, b) => a.price - b.price);
+      } else if (sortOption === "price-desc") {
+        sorted.sort((a, b) => b.price - a.price);
+      }
 
-    setFilteredProducts(sorted);
+      return sorted;
+    });
   }, [sortOption]);
 
-  // Enhanced Search Filter (Matches any part of title)
+  // ✅ Search Filter
   useEffect(() => {
     const filtered = products.filter((product) =>
       product.title.toLowerCase().includes(searchQuery.toLowerCase().trim())
@@ -63,7 +67,7 @@ export default function HomePage() {
     setCurrentPage(1); // Reset pagination when searching
   }, [searchQuery, products]);
 
-  // Pagination logic
+  // ✅ Pagination Logic
   const indexOfLastProduct = currentPage * productsPerPage;
   const indexOfFirstProduct = indexOfLastProduct - productsPerPage;
   const currentProducts = filteredProducts.slice(indexOfFirstProduct, indexOfLastProduct);
@@ -76,10 +80,10 @@ export default function HomePage() {
     <div className="container mx-auto p-4 min-h-screen">
       <h1 className="text-3xl font-bold text-center mb-6">Product List</h1>
 
-      {/* Error Handling */}
+      {/* ✅ Error Handling */}
       {error && <p className="text-red-500 text-center">{error}</p>}
 
-      {/* Search Bar & Sorting */}
+      {/* ✅ Search Bar & Sorting */}
       <div className="flex flex-col md:flex-row justify-between mb-4 space-y-3 md:space-y-0">
         <input
           type="text"
@@ -101,29 +105,35 @@ export default function HomePage() {
         </select>
       </div>
 
-      {/* Loading State */}
+      {/* ✅ Loading State */}
       {loading ? (
         <p className="text-center text-xl font-semibold">Loading products...</p>
       ) : (
         <>
-          {/* Product Grid */}
+          {/* ✅ Product Grid */}
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
             {currentProducts.length > 0 ? (
               currentProducts.map((product) => (
                 <Link key={product.id} href={`/product/${product.id}`} className="h-full">
                   <div className="border p-4 rounded-lg shadow-md bg-white cursor-pointer hover:shadow-lg transition flex flex-col h-full">
-                    {/* Image */}
+                    {/* ✅ Image Optimization */}
                     <div className="w-full h-48 flex justify-center items-center">
-                      <img src={product.image} alt={product.title} className="max-h-full object-contain" />
+                      <Image
+                        src={product.image}
+                        alt={product.title}
+                        width={200}
+                        height={200}
+                        className="max-h-full object-contain"
+                      />
                     </div>
 
-                    {/* Title & Price */}
+                    {/* ✅ Title & Price */}
                     <h2 className="text-lg font-semibold mt-2 line-clamp-2 flex-grow min-h-[3.5rem]">
-  {product.title}
-</h2>
+                      {product.title}
+                    </h2>
                     <p className="text-green-600 font-bold">${product.price}</p>
 
-                    {/* Button (sticks at bottom) */}
+                    {/* ✅ View Product Button */}
                     <div className="mt-auto">
                       <button className="bg-blue-500 text-white px-4 py-2 rounded-md w-full mt-2 hover:bg-blue-600">
                         View Product
@@ -137,7 +147,7 @@ export default function HomePage() {
             )}
           </div>
 
-          {/* Pagination Controls */}
+          {/* ✅ Pagination Controls */}
           {filteredProducts.length > 0 && (
             <div className="flex justify-center mt-6 space-x-4">
               <button

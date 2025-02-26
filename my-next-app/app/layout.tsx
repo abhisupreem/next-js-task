@@ -1,11 +1,11 @@
-import { Montserrat, Inter, Poppins } from "next/font/google";
+import { Montserrat, Inter} from "next/font/google";
 import "./globals.css";
 import Navbar from "./components/Navbar";
 
 // Load Google Fonts
 const montserrat = Montserrat({ subsets: ["latin"], weight: ["400", "600", "700"] });
 const inter = Inter({ subsets: ["latin"], weight: ["400", "500"] });
-const poppins = Poppins({ subsets: ["latin"], weight: ["500", "600"] });
+
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
